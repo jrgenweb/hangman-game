@@ -1,0 +1,55 @@
+@import "./base.css";
+@import "./components.css";
+
+/* 600px */
+@media (min-width: 37.5rem) {
+  body {
+    background: url("../assets/images/background-tablet.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .wrapper {
+    padding: 3rem;
+  }
+
+  :root {
+    --fs-900: 6.5rem; /*heading xl*/
+    --fs-800: 5.5rem; /*heading l*/
+    --fs-700: 3rem; /*heading m*/
+    --fs-600: 2rem; /*heading s*/
+    --fs-400: 20px; /*body */
+  }
+}
+
+/* 768px */
+@media (min-width: 48rem) {
+  body {
+    background: url("../assets/images/background-tablet.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  :root {
+    --fs-900: 6.5rem; /*heading xl*/
+    --fs-800: 5.5rem; /*heading l*/
+    --fs-700: 3rem; /*heading m*/
+    --fs-600: 2rem; /*heading s*/
+    --fs-400: 20px; /*body */
+  }
+}
+
+/* 1110px desktop*/
+@media (min-width: 69.375rem) {
+  body {
+    background: url("../assets/images/background-desktop.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  :root {
+    --fs-900: 8.5rem; /*heading xl*/
+    --fs-800: 5.5rem; /*heading l*/
+    --fs-700: 3rem; /*heading m*/
+    --fs-600: 2rem; /*heading s*/
+    --fs-400: 1.625rem; /*body */
+  }
+}
