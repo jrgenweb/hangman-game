@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 
-export const useStore = defineStore('storeId', {
+export const useWordStore = defineStore('word', {
   // arrow function recommended for full type inference
   state: () => {
     return {
       // all these properties will have their type inferred automatically
-      count: 0,
+      data: [],
       name: 'Eduardo',
       isAdmin: true,
       items: [],

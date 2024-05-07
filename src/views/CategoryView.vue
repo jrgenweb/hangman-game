@@ -1,4 +1,14 @@
 <script setup>
+import { onMounted, ref } from 'vue';
+import * as fn from '../functions/functions';
+
+
+
+const categories = ref([]);
+
+onMounted(() => {
+    categories.value = fn.getCategories();
+});
 
 </script>
 <template>
@@ -13,12 +23,16 @@
             </nav>
 
             <div class="categories">
+
+                <button class="btn-category" @click="$router.push('/game/' + category)" v-bind:key="category"
+                    v-for="category in categories">{{ category }}</button>
+                <!-- 
                 <button class="btn-category" @click="$router.push('/game')">Movies</button>
                 <button class="btn-category">TV Shows</button>
                 <button class="btn-category">Countries</button>
                 <button class="btn-category">Capital cities</button>
                 <button class="btn-category">Animals</button>
-                <button class="btn-category">Sports</button>
+                <button class="btn-category">Sports</button> -->
             </div>
         </div>
     </div>

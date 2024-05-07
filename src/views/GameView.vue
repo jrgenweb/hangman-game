@@ -1,25 +1,91 @@
 <script setup>
 import router from '@/router';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import * as fn from '../functions/functions'
+
+
+import { useWordStore } from '@/stores/words';
+
+const route = useRoute();
 
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const word = "ALMAFAVIRÁGA";
+const word = ref("ALMAFAVIRÁGA");
+const wordReveal = ref([]);
+const disabledKeyBoard = ref([]);
+
+const pushedLetter = ref('');
+
+const maxTrying = ref(10);
+const trying = ref(0);
+
+
+const modal = ref({
+    visible: false,
+    title: 'Paused'//display: Paused | You Win | You Lose
+});
 
 
 
-const modalVisible = ref(false);
-const modalTitle = ref('');//display: Paused | You Win | You Lose
 
+onMounted(() => {
+
+    fn.init();
+    word.value = fn.getWord(route.params.category);
+
+
+    console.log(useWordStore.data)
+
+    //get a random word
+
+})
+
+function find(letter) {
+
+
+    //ha tartalmazza az adott betűt
+
+    for (let i = 0; i < word.value.length; i++) {
+        if (letter.toLowerCase() === word.value[i].toLowerCase()) {
+            wordReveal.value[i] = true;
+        }
+    }
+
+
+    for (let i = 0; i < letters.length; i++) {
+        if (letters[i].toLowerCase() === letter.toLowerCase()) {
+            disabledKeyBoard.value[i] = true;
+        }
+    }
+
+    console.log(disabledKeyBoard.value);
+
+
+    pushedLetter.value = letter;
+    console.log(letter, word.value)
+}
+
+function isDisabled(letter) {
+    console.log(pushedLetter)
+
+    for (let item in pushedLetter.value) {
+        if (letter === item)
+            return true
+    }
+
+    return false
+    //
+}
 
 </script>
 <template>
     <div class="wrapper">
         <div class="container">
             <nav>
-                <button class="btn-circle" @click="modalVisible = !modalVisible">
+                <button class="btn-circle" @click="modal.visible = !modal.visible">
                     <img src="../assets/images/icon-menu.svg" alt="menu icon">
                 </button>
-                <h2>Counteries</h2>
+                <h2>{{ route.params.category }}</h2>
                 <div class="health-bar">
                     <div class="health-bar-outer">
                         <div class="health-bar-inner"></div>
@@ -30,27 +96,26 @@ const modalTitle = ref('');//display: Paused | You Win | You Lose
             </nav>
 
             <div class="word-wrapper">
-                <button v-bind:key="index" v-for="letter, index in word" class="letter">
-                    <span>
-                        {{ letter
-                        }}</span></button>
+                <button v-bind:key="index" v-for="letter, index in word" class="letter" :disabled="!wordReveal[index]">
+                    <span> {{ letter }}</span></button>
             </div>
             <div class="keyboard">
-                <button v-bind:key="index" v-for="letter, index in letters" class="keyboard-letter ">{{ letter
+                <button v-bind:key="index" v-for="letter, index in letters" class="keyboard-letter"
+                    :disabled="disabledKeyBoard[index]" @click="find(letter)">{{ letter
                     }}</button>
             </div>
 
-            <div class="modal" v-if="modalVisible">
+            <div class="modal" v-if="modal.visible">
                 <div class="header">
                     <h1> Paused</h1>
                 </div>
-                <button class="btn-primary" @click="modalVisible = false">Continue</button>
+                <button class="btn-primary" @click="modal.visible = false">Continue</button>
                 <button class="btn-primary" @click="$router.push('/category')">New Category</button>
                 <button class="btn-secondary" @click="$router.push('/')">Quit Game</button>
 
 
             </div>
-            <div class="drop" v-if="modalVisible"></div>
+            <div class="drop" v-if="modal.visible"></div>
         </div>
     </div>
 </template>
