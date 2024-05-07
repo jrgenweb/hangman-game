@@ -16,8 +16,8 @@ const disabledKeyBoard = ref([]);
 
 const pushedLetter = ref('');
 
-const maxTrying = ref(10);
-const trying = ref(0);
+const maxAttempt = 3; //10 attempt allowed
+let attempt = 0;
 
 
 const modal = ref({
@@ -45,12 +45,13 @@ function find(letter) {
 
     //ha tartalmazza az adott betűt
 
+    let hit = false;
     for (let i = 0; i < word.value.length; i++) {
         if (letter.toLowerCase() === word.value[i].toLowerCase()) {
             wordReveal.value[i] = true;
+            hit = true;
         }
     }
-
 
     for (let i = 0; i < letters.length; i++) {
         if (letters[i].toLowerCase() === letter.toLowerCase()) {
@@ -58,24 +59,63 @@ function find(letter) {
         }
     }
 
+    //ha nem volt találat akkor növeljük az életet
+    if (!hit) {
+        attempt++;
+    }
+
+    checkAttempt()
+
+
+
     console.log(disabledKeyBoard.value);
 
 
-    pushedLetter.value = letter;
+
     console.log(letter, word.value)
 }
 
-function isDisabled(letter) {
-    console.log(pushedLetter)
 
-    for (let item in pushedLetter.value) {
-        if (letter === item)
-            return true
+function checkAttempt() {
+    console.log(word.value.length, ' és ez', checkWordRevealLength());
+    console.log(wordReveal.value);
+
+
+    //game over
+    if (attempt === maxAttempt) {
+        modal.value.title = "Game Over"
+        modal.value.visible = true;
+        console.log('vége')
     }
 
-    return false
-    //
+
+    if (word.value.length === checkWordRevealLength()) {
+        modal.value.title = "You Win"
+        modal.value.visible = true;
+        console.log('nyertél')
+    }
 }
+
+function checkWordRevealLength() {
+
+    let count = 0;
+
+    wordReveal.value.forEach(item => {
+        count++;
+    })
+
+
+    return count;
+    /*  const word = ref("ALMAFAVIRÁGA");
+     const wordReveal = ref([]); */
+    /* 
+        for (let i = 0; i < word.value.length; i++) {
+            for (wordReveal)
+        }
+        word.value */
+}
+
+
 
 </script>
 <template>
@@ -107,9 +147,11 @@ function isDisabled(letter) {
 
             <div class="modal" v-if="modal.visible">
                 <div class="header">
-                    <h1> Paused</h1>
+                    <h1> {{ modal.title }}</h1>
                 </div>
-                <button class="btn-primary" @click="modal.visible = false">Continue</button>
+
+                <button class="btn-primary" @click="modal.visible = false" v-if="attempt < maxAttempt">Continue</button>
+                <button class="btn-primary" @click="$router.push('/category')" v-else>Play Again</button>
                 <button class="btn-primary" @click="$router.push('/category')">New Category</button>
                 <button class="btn-secondary" @click="$router.push('/')">Quit Game</button>
 
