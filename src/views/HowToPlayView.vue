@@ -3,57 +3,58 @@
 </script>
 <template>
     <div class="wrapper">
-        <nav>
-            <button class="btn-circle" @click="$router.push('/')">
-                <img src="../assets/images/icon-back.svg" alt="">
-            </button>
+        <div class="container">
+            <nav>
+                <button class="btn-circle" @click="$router.push('/')">
+                    <img src="../assets/images/icon-back.svg" alt="">
+                </button>
 
-            <h1>How to Play</h1>
-        </nav>
+                <h1>How to Play</h1>
+            </nav>
 
 
-        <div class="flex">
-            <div class="description">
+            <div class="flex">
+                <div class="description">
 
-                <h2>01</h2>
-                <h3>Choose a category</h3>
-                <p>
-                    First, choose a word category, like animals or movies.
-                    The computer then randomly selects a secret word from that
-                    topic and shows you blanks for each letter of the word.
+                    <h2>01</h2>
+                    <h3>Choose a category</h3>
+                    <p>
+                        First, choose a word category, like animals or movies.
+                        The computer then randomly selects a secret word from that
+                        topic and shows you blanks for each letter of the word.
 
-                </p>
+                    </p>
+
+                </div>
+                <div class="description">
+
+                    <h2>02</h2>
+                    <h3>Guess letters</h3>
+                    <p>
+                        Take turns guessing letters. The computer fills in the
+                        relevant blank spaces if your guess is correct. If it's
+                        wrong, you lose some health, which empties after eight
+                        incorrect guesses.
+
+                    </p>
+
+                </div>
+                <div class="description">
+
+
+                    <h2>03</h2>
+                    <h3> Win or lose</h3>
+                    <p>
+
+                        You win by guessing all the letters in the word before your
+                        health runs out. If the health bar empties before you guess
+                        the word, you lose.
+                    </p>
+
+                </div>
 
             </div>
-            <div class="description">
-
-                <h2>02</h2>
-                <h3>Guess letters</h3>
-                <p>
-                    Take turns guessing letters. The computer fills in the
-                    relevant blank spaces if your guess is correct. If it's
-                    wrong, you lose some health, which empties after eight
-                    incorrect guesses.
-
-                </p>
-
-            </div>
-            <div class="description">
-
-
-                <h2>03</h2>
-                <h3> Win or lose</h3>
-                <p>
-
-                    You win by guessing all the letters in the word before your
-                    health runs out. If the health bar empties before you guess
-                    the word, you lose.
-                </p>
-
-            </div>
-
         </div>
-
     </div>
 </template>
 <style scoped>
@@ -61,6 +62,8 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+
+
 }
 
 .description {
@@ -138,12 +141,33 @@ p {
 }
 
 @media (min-width:69.375rem) {
+    .flex {
+        flex-direction: row;
+        text-align: center;
+    }
+
     .description {
         padding: 48px;
     }
 
     h3 {
         font-size: 3rem;
+    }
+
+    h2 {
+        grid-row: 1/2;
+        grid-column: 1/3;
+    }
+
+    h3 {
+        grid-row: 2/3;
+        grid-column: 1/3;
+        font-size: 40px;
+    }
+
+    p {
+        grid-row: 3/4;
+        grid-column: 1/3;
     }
 }
 </style>
